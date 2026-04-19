@@ -51,7 +51,7 @@ const Hero = () => (
         className="w-full h-full object-cover opacity-60"
         referrerPolicy="no-referrer"
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#0f0f0f] to-transparent"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent"></div>
     </div>
     <div className="container mx-auto px-6 relative z-10">
       <motion.div 
@@ -61,13 +61,13 @@ const Hero = () => (
         className="max-w-2xl"
       >
         <h3 className="text-brand-red font-semibold tracking-widest uppercase mb-4">Innovation in Surfaces</h3>
-        <h1 className="text-5xl md:text-7xl font-bold mb-8 leading-tight">Elevate Your <br/>Living Spaces</h1>
+        <h1 className="text-5xl md:text-7xl font-bold mb-8 leading-tight text-[#111]">Elevate Your <br/>Living Spaces</h1>
         <p className="text-lg text-brand-gray mb-10 leading-relaxed max-w-lg">
           Discover the perfect harmony of nature and technology. Our premium MDF and architectural solutions bring timeless wood aesthetics to modern interiors.
         </p>
         <div className="flex space-x-4">
           <button className="bg-brand-red hover:bg-red-700 text-white px-10 py-4 rounded-2xl font-semibold transition-all shadow-lg">Explore Collection</button>
-          <button className="bg-white/10 hover:bg-white/20 text-white px-10 py-4 rounded-2xl font-semibold transition-all glass-effect">Order Samples</button>
+          <button className="bg-black/5 hover:bg-black/10 text-[#111] px-10 py-4 rounded-2xl font-semibold transition-all glass-effect">Order Samples</button>
         </div>
       </motion.div>
     </div>
@@ -79,7 +79,7 @@ const Hero = () => (
 );
 
 const Categories = () => (
-  <section className="py-24 bg-[#0f0f0f]">
+  <section className="py-24 bg-[#f7f7f7]">
     <div className="container mx-auto px-6">
       <div className="flex justify-between items-end mb-16">
         <div>
@@ -115,9 +115,9 @@ const Categories = () => (
           >
             <img src={cat.img} alt={cat.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
-            <div className="absolute bottom-8 left-8">
+            <div className="absolute bottom-8 left-8 text-white">
               <h3 className="text-2xl font-bold mb-2">{cat.title}</h3>
-              <p className="text-brand-gray text-sm mb-4">{cat.desc}</p>
+              <p className="text-white/80 text-sm mb-4">{cat.desc}</p>
               <button className="text-sm border-b border-brand-red text-brand-red font-medium py-1">Discover →</button>
             </div>
           </motion.div>
@@ -143,11 +143,11 @@ const ProductGrid = () => (
           </div>
           <div className="hidden md:flex items-center space-x-4 text-sm text-brand-gray">
             {["Walnut", "Oak", "Mahogany"].map(tag => (
-              <span key={tag} className="px-4 py-2 bg-brand-card rounded-full border border-white/5 hover:border-brand-red transition-colors cursor-pointer">{tag}</span>
+              <span key={tag} className="px-4 py-2 bg-brand-card rounded-full border border-black/10 hover:border-brand-red transition-colors cursor-pointer">{tag}</span>
             ))}
           </div>
         </div>
-        <select className="bg-brand-card border border-white/10 rounded-lg text-sm px-4 py-2 outline-none focus:ring-brand-red">
+        <select className="bg-brand-card border border-black/10 rounded-lg text-sm px-4 py-2 outline-none focus:ring-brand-red">
           <option>Sort By: Newest</option>
           <option>Price: Low to High</option>
           <option>Price: High to Low</option>
@@ -175,7 +175,7 @@ const ProductGrid = () => (
           }
         ].map((prod, i) => (
           <div key={i} className="group">
-            <div className="relative overflow-hidden rounded-2xl aspect-video bg-zinc-900 mb-6 shadow-2xl">
+            <div className="relative overflow-hidden rounded-2xl aspect-video bg-zinc-100 mb-6 shadow-2xl">
               {prod.tag && (
                 <span className={`absolute top-4 left-4 z-10 text-white text-[10px] font-bold px-3 py-1 rounded-sm uppercase tracking-tighter ${prod.tag === 'New' ? 'bg-black' : 'bg-brand-red'}`}>
                   {prod.tag}
@@ -183,35 +183,35 @@ const ProductGrid = () => (
               )}
               <img src={prod.img} alt={prod.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" referrerPolicy="no-referrer" />
               <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center space-x-3">
-                <button className="bg-white text-black p-3 rounded-full hover:bg-brand-red hover:text-white transition-colors"><Search className="w-5 h-5" /></button>
-                <button className="bg-white text-black p-3 rounded-full hover:bg-brand-red hover:text-white transition-colors"><ShoppingBag className="w-5 h-5" /></button>
+                <button className="bg-white text-black p-3 rounded-full hover:bg-brand-red hover:text-black transition-colors"><Search className="w-5 h-5" /></button>
+                <button className="bg-white text-black p-3 rounded-full hover:bg-brand-red hover:text-black transition-colors"><ShoppingBag className="w-5 h-5" /></button>
               </div>
             </div>
             <h4 className="text-xl font-bold mb-1">{prod.id}</h4>
             <p className="text-brand-gray text-sm mb-4">{prod.name}</p>
             <div className="flex space-x-2">
-              <button className="flex-1 py-2 rounded-lg bg-zinc-800 text-[11px] font-bold uppercase tracking-wider hover:bg-brand-red transition-colors">Details</button>
-              <button className="flex-1 py-2 rounded-lg bg-zinc-800 text-[11px] font-bold uppercase tracking-wider hover:bg-brand-red transition-colors">Map Color</button>
+              <button className="flex-1 py-2 rounded-lg bg-zinc-100 text-[#111] text-[11px] font-bold uppercase tracking-wider hover:bg-brand-red hover:text-black transition-colors">Details</button>
+              <button className="flex-1 py-2 rounded-lg bg-zinc-100 text-[#111] text-[11px] font-bold uppercase tracking-wider hover:bg-brand-red hover:text-black transition-colors">Map Color</button>
             </div>
           </div>
         ))}
       </div>
 
       <div className="mt-20 flex justify-center space-x-2">
-        <button className="w-10 h-10 rounded-lg bg-brand-card flex items-center justify-center border border-white/5 hover:bg-brand-red transition-colors"><ChevronLeft className="w-4 h-4" /></button>
+        <button className="w-10 h-10 rounded-lg bg-brand-card flex items-center justify-center border border-black/10 hover:bg-brand-red transition-colors"><ChevronLeft className="w-4 h-4" /></button>
         <button className="w-10 h-10 rounded-lg bg-brand-red text-white font-bold">1</button>
-        <button className="w-10 h-10 rounded-lg bg-brand-card border border-white/5 hover:border-brand-red transition-colors">2</button>
-        <button className="w-10 h-10 rounded-lg bg-brand-card border border-white/5 hover:border-brand-red transition-colors">3</button>
+        <button className="w-10 h-10 rounded-lg bg-brand-card border border-black/10 hover:border-brand-red transition-colors">2</button>
+        <button className="w-10 h-10 rounded-lg bg-brand-card border border-black/10 hover:border-brand-red transition-colors">3</button>
         <span className="w-10 h-10 flex items-center justify-center">...</span>
-        <button className="w-10 h-10 rounded-lg bg-brand-card border border-white/5 hover:border-brand-red transition-colors">42</button>
-        <button className="w-10 h-10 rounded-lg bg-brand-card flex items-center justify-center border border-white/5 hover:bg-brand-red transition-colors"><ChevronRight className="w-4 h-4" /></button>
+        <button className="w-10 h-10 rounded-lg bg-brand-card border border-black/10 hover:border-brand-red transition-colors">42</button>
+        <button className="w-10 h-10 rounded-lg bg-brand-card flex items-center justify-center border border-black/10 hover:bg-brand-red transition-colors"><ChevronRight className="w-4 h-4" /></button>
       </div>
     </div>
   </section>
 );
 
 const Projects = () => (
-  <section className="py-24 bg-[#0f0f0f]">
+  <section className="py-24 bg-[#f7f7f7]">
     <div className="container mx-auto px-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-16 gap-4">
         <h2 className="text-4xl font-bold">Featured Projects</h2>
@@ -225,9 +225,9 @@ const Projects = () => (
             className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
             referrerPolicy="no-referrer"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-10 flex flex-col justify-end">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-10 flex flex-col justify-end text-white">
             <h4 className="text-2xl font-bold">The Sapphire Penthouse</h4>
-            <p className="text-brand-gray">Industrial Chic Concept</p>
+            <p className="text-white/80">Industrial Chic Concept</p>
           </div>
         </div>
         <div className="col-span-12 md:col-span-4 row-span-1 relative group overflow-hidden rounded-2xl">
@@ -237,9 +237,9 @@ const Projects = () => (
             className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
             referrerPolicy="no-referrer"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-6 flex flex-col justify-end">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-6 flex flex-col justify-end text-white">
             <h4 className="text-xl font-bold">Eco-Tech Office</h4>
-            <p className="text-brand-gray">Sustainable Design</p>
+            <p className="text-white/80">Sustainable Design</p>
           </div>
         </div>
         <div className="col-span-12 md:col-span-4 row-span-1 relative group overflow-hidden rounded-2xl">
@@ -249,9 +249,9 @@ const Projects = () => (
             className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
             referrerPolicy="no-referrer"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-6 flex flex-col justify-end">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-6 flex flex-col justify-end text-white">
             <h4 className="text-xl font-bold">Grand Kitchen Suite</h4>
-            <p className="text-brand-gray">High-Gloss Finish</p>
+            <p className="text-white/80">High-Gloss Finish</p>
           </div>
         </div>
       </div>
@@ -260,7 +260,7 @@ const Projects = () => (
 );
 
 const Footer = () => (
-  <footer className="bg-brand-dark pt-20 pb-10 border-t border-white/5">
+  <footer className="bg-brand-dark pt-20 pb-10 border-t border-black/10">
     <div className="container mx-auto px-6">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
         <div>
@@ -277,7 +277,7 @@ const Footer = () => (
           </div>
         </div>
         <div>
-          <h4 className="text-white font-bold uppercase tracking-widest text-sm mb-8">Quick Links</h4>
+          <h4 className="text-[#111] font-bold uppercase tracking-widest text-sm mb-8">Quick Links</h4>
           <ul className="space-y-4 text-brand-gray text-sm">
             <li><a href="#" className="hover:text-brand-red transition-colors">About Us</a></li>
             <li><a href="#" className="hover:text-brand-red transition-colors">Showroom System</a></li>
@@ -286,7 +286,7 @@ const Footer = () => (
           </ul>
         </div>
         <div>
-          <h4 className="text-white font-bold uppercase tracking-widest text-sm mb-8">Support</h4>
+          <h4 className="text-[#111] font-bold uppercase tracking-widest text-sm mb-8">Support</h4>
           <ul className="space-y-4 text-brand-gray text-sm">
             <li><a href="#" className="hover:text-brand-red transition-colors">Warranty Policy</a></li>
             <li><a href="#" className="hover:text-brand-red transition-colors">Delivery Policy</a></li>
@@ -295,7 +295,7 @@ const Footer = () => (
           </ul>
         </div>
         <div>
-          <h4 className="text-white font-bold uppercase tracking-widest text-sm mb-8">Newsletter</h4>
+          <h4 className="text-[#111] font-bold uppercase tracking-widest text-sm mb-8">Newsletter</h4>
           <p className="text-brand-gray text-xs mb-6">Receive updates on our latest collections and sustainable innovations.</p>
           <form className="flex">
             <input type="email" placeholder="Email address" className="bg-brand-card border-none rounded-l-lg py-3 px-4 w-full text-sm focus:ring-1 focus:ring-brand-red outline-none" />
@@ -303,11 +303,11 @@ const Footer = () => (
           </form>
         </div>
       </div>
-      <div className="border-t border-white/5 pt-10 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-widest text-brand-gray">
+      <div className="border-t border-black/10 pt-10 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-widest text-brand-gray">
         <p>© 2024 AN CUONG WOOD WORKING. ALL RIGHTS RESERVED.</p>
         <div className="flex space-x-8">
-          <a href="#" className="hover:text-white">Privacy Policy</a>
-          <a href="#" className="hover:text-white">Terms of Service</a>
+          <a href="#" className="hover:text-black">Privacy Policy</a>
+          <a href="#" className="hover:text-black">Terms of Service</a>
         </div>
       </div>
     </div>
