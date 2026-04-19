@@ -7,7 +7,7 @@ import { useEffect, useState, type Dispatch, type ReactNode, type SetStateAction
 import { Link, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { Search, Heart, ShoppingBag, ArrowRight, Filter, ChevronLeft, ChevronRight, ChevronDown, Eye, Download, Twitter, Instagram, Sun, Moon } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { PRODUCTS, type Product } from './data';
+import { PRODUCTS, ZALO_URL, type Product } from './data';
 import ProductDetailPage from './pages/ProductDetailPage';
 
 type Theme = 'light' | 'dark';
@@ -536,7 +536,7 @@ const Footer = () => (
             <li><a href="#" className="hover:text-brand-red transition-colors">Chính sách bảo hành</a></li>
             <li><a href="#" className="hover:text-brand-red transition-colors">Chính sách giao hàng</a></li>
             <li><a href="#" className="hover:text-brand-red transition-colors">Tải catalog</a></li>
-            <li><a href="#" className="hover:text-brand-red transition-colors">Liên hệ báo giá</a></li>
+            <li><a href={ZALO_URL} target="_blank" rel="noopener noreferrer" className="hover:text-brand-red transition-colors">Liên hệ báo giá (Zalo)</a></li>
           </ul>
         </div>
         <div>
