@@ -246,10 +246,14 @@ const ProductGrid = () => {
   const [selectedColor, setSelectedColor] = useState<string>('#4a2717');
   const [selectedSize, setSelectedSize] = useState<string[]>([]);
   const [selectedSurface, setSelectedSurface] = useState<string[]>([]);
+  const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
 
   const toggleOpen = (key: FilterKey) => setOpen(s => ({ ...s, [key]: !s[key] }));
   const toggleItem = (setter: Dispatch<SetStateAction<string[]>>, value: string) =>
     setter(s => (s.includes(value) ? s.filter(x => x !== value) : [...s, value]));
+
+  const activeFilterCount =
+    selectedType.length + selectedSize.length + selectedSurface.length + (selectedColor ? 1 : 0);
 
   return (
     <section className="py-20 bg-brand-dark">
@@ -264,10 +268,10 @@ const ProductGrid = () => {
 
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
           <div>
-            <h1 className="text-5xl md:text-6xl font-light leading-none mb-4">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-light leading-none mb-3 sm:mb-4">
               Gạch Lát <span className="font-bold">Nền</span>
             </h1>
-            <p className="text-brand-gray">Tìm thấy 1.248 mẫu sản phẩm phù hợp với phong cách của bạn</p>
+            <p className="text-brand-gray text-sm sm:text-base">Tìm thấy 1.248 mẫu sản phẩm phù hợp với phong cách của bạn</p>
           </div>
           <div className="flex items-center gap-3">
             <span className="text-[11px] uppercase tracking-widest text-brand-gray">Sắp xếp:</span>
@@ -283,11 +287,33 @@ const ProductGrid = () => {
           </div>
         </div>
 
-        <div className="border-t border-brand-text/10 mb-12"></div>
+        <div className="border-t border-brand-text/10 mb-8 lg:mb-12"></div>
+
+        <button
+          type="button"
+          onClick={() => setMobileFilterOpen(v => !v)}
+          aria-expanded={mobileFilterOpen}
+          className="lg:hidden w-full flex items-center justify-between gap-3 bg-brand-card border border-brand-text/10 rounded-xl px-5 py-4 mb-4"
+        >
+          <span className="flex items-center gap-3">
+            <span className="bg-brand-red p-1.5 rounded-md text-white flex items-center justify-center">
+              <Filter className="w-3.5 h-3.5" />
+            </span>
+            <span className="font-bold tracking-widest text-xs">BỘ LỌC SẢN PHẨM</span>
+            {activeFilterCount > 0 && (
+              <span className="bg-brand-red text-white text-[10px] font-bold rounded-full min-w-5 h-5 px-1.5 flex items-center justify-center">
+                {activeFilterCount}
+              </span>
+            )}
+          </span>
+          <ChevronDown className={`w-4 h-4 transition-transform ${mobileFilterOpen ? 'rotate-180' : ''}`} />
+        </button>
 
         <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8">
-          <aside className="bg-brand-card rounded-2xl p-6 border border-brand-text/10 self-start lg:sticky lg:top-28">
-            <div className="flex items-center gap-3 pb-5 mb-2 border-b border-brand-text/10">
+          <aside
+            className={`${mobileFilterOpen ? 'block' : 'hidden'} lg:block bg-brand-card rounded-2xl p-6 border border-brand-text/10 self-start lg:sticky lg:top-28`}
+          >
+            <div className="hidden lg:flex items-center gap-3 pb-5 mb-2 border-b border-brand-text/10">
               <span className="bg-brand-red p-2 rounded-lg text-white flex items-center justify-center">
                 <Filter className="w-4 h-4" />
               </span>
@@ -363,13 +389,13 @@ const ProductGrid = () => {
             </button>
           </aside>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-12">
+          <div className="grid grid-cols-2 xl:grid-cols-3 gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-12">
             {PRODUCTS.map(prod => (
               <article key={prod.id} className="group">
-                <div className="relative overflow-hidden rounded-2xl aspect-[4/3] bg-brand-alt mb-5 shadow-xl">
+                <div className="relative overflow-hidden rounded-xl sm:rounded-2xl aspect-[4/3] bg-brand-alt mb-3 sm:mb-5 shadow-xl">
                   {prod.tag && (
                     <span
-                      className={`absolute top-4 left-4 z-10 text-white text-[10px] font-bold px-3 py-1.5 rounded-md uppercase tracking-wider ${
+                      className={`absolute top-2 left-2 sm:top-4 sm:left-4 z-10 text-white text-[9px] sm:text-[10px] font-bold px-2 py-1 sm:px-3 sm:py-1.5 rounded-md uppercase tracking-wider ${
                         prod.tag === 'Mới' ? 'bg-black' : 'bg-brand-red'
                       }`}
                     >
@@ -383,22 +409,23 @@ const ProductGrid = () => {
                     referrerPolicy="no-referrer"
                   />
                 </div>
-                <h3 className="text-xl font-bold mb-1">{prod.id}</h3>
-                <p className="text-brand-gray text-sm mb-5">{prod.name}</p>
+                <h3 className="text-base sm:text-xl font-bold mb-1">{prod.id}</h3>
+                <p className="text-brand-gray text-xs sm:text-sm mb-3 sm:mb-5 line-clamp-1">{prod.name}</p>
                 <div className="flex gap-2">
                   <button
                     type="button"
-                    className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg bg-brand-alt text-brand-text text-[11px] font-bold uppercase tracking-wider border border-brand-text/10 hover:bg-brand-red hover:text-white hover:border-brand-red transition-colors"
+                    className="flex-1 flex items-center justify-center gap-1.5 sm:gap-2 py-2 sm:py-2.5 rounded-lg bg-brand-alt text-brand-text text-[10px] sm:text-[11px] font-bold uppercase tracking-wider border border-brand-text/10 hover:bg-brand-red hover:text-white hover:border-brand-red transition-colors"
                   >
-                    <Eye className="w-4 h-4" />
-                    Chi tiết
+                    <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    <span className="hidden sm:inline">Chi tiết</span>
+                    <span className="sm:hidden">Xem</span>
                   </button>
                   <button
                     type="button"
-                    className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg bg-brand-alt text-brand-text text-[11px] font-bold uppercase tracking-wider border border-brand-text/10 hover:bg-brand-red hover:text-white hover:border-brand-red transition-colors"
+                    className="flex-1 flex items-center justify-center gap-1.5 sm:gap-2 py-2 sm:py-2.5 rounded-lg bg-brand-alt text-brand-text text-[10px] sm:text-[11px] font-bold uppercase tracking-wider border border-brand-text/10 hover:bg-brand-red hover:text-white hover:border-brand-red transition-colors"
                   >
-                    <Download className="w-4 h-4" />
-                    Map màu
+                    <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    <span>Map màu</span>
                   </button>
                 </div>
               </article>
