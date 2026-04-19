@@ -71,7 +71,7 @@ const Header = ({ theme, onToggleTheme }: { theme: Theme; onToggleTheme: () => v
 };
 
 const Hero = () => (
-  <section className="relative h-screen overflow-hidden">
+  <section className="relative overflow-hidden bg-brand-alt pt-20">
     <picture>
       <source
         media="(max-width: 767px)"
@@ -80,7 +80,7 @@ const Hero = () => (
       <img
         src="https://dmtkxjqlcrcddcuvzqqb.supabase.co/storage/v1/object/public/logos/DUYHUNG1.png"
         alt="Showroom Duy Hưng"
-        className="absolute inset-0 w-full h-full object-cover"
+        className="block w-full h-auto"
         referrerPolicy="no-referrer"
       />
     </picture>
