@@ -3,10 +3,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Search, Heart, ShoppingBag, ArrowRight, Filter, ChevronLeft, ChevronRight, Twitter, Instagram } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Search, Heart, ShoppingBag, ArrowRight, Filter, ChevronLeft, ChevronRight, Twitter, Instagram, Sun, Moon } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const Header = () => (
+type Theme = 'light' | 'dark';
+
+const Header = ({ theme, onToggleTheme }: { theme: Theme; onToggleTheme: () => void }) => (
   <header className="fixed top-0 left-0 right-0 z-50 glass-effect">
     <div className="container mx-auto px-6 h-20 flex items-center justify-between">
       <div className="flex items-center space-x-8">
@@ -23,17 +26,25 @@ const Header = () => (
       </div>
       <div className="flex items-center space-x-6">
         <div className="relative group hidden md:block">
-          <input 
-            type="text" 
+          <input
+            type="text"
             placeholder="Tìm vật liệu..."
             className="bg-brand-card border-none rounded-full py-2 px-6 w-64 text-sm focus:ring-1 focus:ring-brand-red outline-none"
           />
           <Search className="w-4 h-4 absolute right-4 top-2.5 text-brand-gray" />
         </div>
         <div className="flex items-center space-x-4">
+          <button
+            type="button"
+            onClick={onToggleTheme}
+            aria-label={theme === 'dark' ? 'Chuyển sang chế độ sáng' : 'Chuyển sang chế độ tối'}
+            className="p-2 rounded-full hover:bg-brand-text/10 hover:text-brand-red transition-colors"
+          >
+            {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+          </button>
           <div className="relative cursor-pointer group">
             <Heart className="w-6 h-6 group-hover:text-brand-red transition-colors" />
-            <span className="absolute -top-2 -right-2 bg-brand-red text-[10px] rounded-full px-1.5 py-0.5">0</span>
+            <span className="absolute -top-2 -right-2 bg-brand-red text-white text-[10px] rounded-full px-1.5 py-0.5">0</span>
           </div>
           <ShoppingBag className="w-6 h-6 hover:text-brand-red cursor-pointer transition-colors" />
         </div>
@@ -51,7 +62,7 @@ const Hero = () => (
         className="w-full h-full object-cover opacity-60"
         referrerPolicy="no-referrer"
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-brand-alt via-brand-alt/80 to-transparent"></div>
     </div>
     <div className="container mx-auto px-6 relative z-10">
       <motion.div 
@@ -61,13 +72,13 @@ const Hero = () => (
         className="max-w-2xl"
       >
         <h3 className="text-brand-red font-semibold tracking-widest uppercase mb-4">Đổi mới bề mặt</h3>
-        <h1 className="text-5xl md:text-7xl font-bold mb-8 leading-tight text-[#111]">Nâng tầm<br/>không gian sống</h1>
+        <h1 className="text-5xl md:text-7xl font-bold mb-8 leading-tight text-brand-text">Nâng tầm<br/>không gian sống</h1>
         <p className="text-lg text-brand-gray mb-10 leading-relaxed max-w-lg">
           Khám phá sự hài hòa hoàn hảo giữa thiên nhiên và công nghệ. Giải pháp MDF và kiến trúc cao cấp mang vẻ đẹp gỗ vượt thời gian đến với nội thất hiện đại.
         </p>
         <div className="flex space-x-4">
           <button className="bg-brand-red hover:bg-red-700 text-white px-10 py-4 rounded-2xl font-semibold transition-all shadow-lg">Khám phá bộ sưu tập</button>
-          <button className="bg-black/5 hover:bg-black/10 text-[#111] px-10 py-4 rounded-2xl font-semibold transition-all glass-effect">Đặt mẫu thử</button>
+          <button className="bg-brand-text/5 hover:bg-brand-text/10 text-brand-text px-10 py-4 rounded-2xl font-semibold transition-all glass-effect">Đặt mẫu thử</button>
         </div>
       </motion.div>
     </div>
@@ -79,7 +90,7 @@ const Hero = () => (
 );
 
 const Categories = () => (
-  <section className="py-24 bg-[#f7f7f7]">
+  <section className="py-24 bg-brand-alt">
     <div className="container mx-auto px-6">
       <div className="flex justify-between items-end mb-16">
         <div>
@@ -143,11 +154,11 @@ const ProductGrid = () => (
           </div>
           <div className="hidden md:flex items-center space-x-4 text-sm text-brand-gray">
             {["Óc chó", "Sồi", "Gỗ gụ"].map(tag => (
-              <span key={tag} className="px-4 py-2 bg-brand-card rounded-full border border-black/10 hover:border-brand-red transition-colors cursor-pointer">{tag}</span>
+              <span key={tag} className="px-4 py-2 bg-brand-card rounded-full border border-brand-text/10 hover:border-brand-red transition-colors cursor-pointer">{tag}</span>
             ))}
           </div>
         </div>
-        <select className="bg-brand-card border border-black/10 rounded-lg text-sm px-4 py-2 outline-none focus:ring-brand-red">
+        <select className="bg-brand-card border border-brand-text/10 rounded-lg text-sm px-4 py-2 outline-none focus:ring-brand-red">
           <option>Sắp xếp: Mới nhất</option>
           <option>Giá: Thấp đến Cao</option>
           <option>Giá: Cao đến Thấp</option>
@@ -175,7 +186,7 @@ const ProductGrid = () => (
           }
         ].map((prod, i) => (
           <div key={i} className="group">
-            <div className="relative overflow-hidden rounded-2xl aspect-video bg-zinc-100 mb-6 shadow-2xl">
+            <div className="relative overflow-hidden rounded-2xl aspect-video bg-brand-card mb-6 shadow-2xl">
               {prod.tag && (
                 <span className={`absolute top-4 left-4 z-10 text-white text-[10px] font-bold px-3 py-1 rounded-sm uppercase tracking-tighter ${prod.tag === 'Mới' ? 'bg-black' : 'bg-brand-red'}`}>
                   {prod.tag}
@@ -183,35 +194,35 @@ const ProductGrid = () => (
               )}
               <img src={prod.img} alt={prod.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" referrerPolicy="no-referrer" />
               <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center space-x-3">
-                <button className="bg-white text-black p-3 rounded-full hover:bg-brand-red hover:text-black transition-colors"><Search className="w-5 h-5" /></button>
-                <button className="bg-white text-black p-3 rounded-full hover:bg-brand-red hover:text-black transition-colors"><ShoppingBag className="w-5 h-5" /></button>
+                <button className="bg-white text-black p-3 rounded-full hover:bg-brand-red hover:text-white transition-colors"><Search className="w-5 h-5" /></button>
+                <button className="bg-white text-black p-3 rounded-full hover:bg-brand-red hover:text-white transition-colors"><ShoppingBag className="w-5 h-5" /></button>
               </div>
             </div>
             <h4 className="text-xl font-bold mb-1">{prod.id}</h4>
             <p className="text-brand-gray text-sm mb-4">{prod.name}</p>
             <div className="flex space-x-2">
-              <button className="flex-1 py-2 rounded-lg bg-zinc-100 text-[#111] text-[11px] font-bold uppercase tracking-wider hover:bg-brand-red hover:text-white transition-colors">Chi tiết</button>
-              <button className="flex-1 py-2 rounded-lg bg-zinc-100 text-[#111] text-[11px] font-bold uppercase tracking-wider hover:bg-brand-red hover:text-white transition-colors">Bảng màu</button>
+              <button className="flex-1 py-2 rounded-lg bg-brand-card text-brand-text text-[11px] font-bold uppercase tracking-wider hover:bg-brand-red hover:text-white transition-colors">Chi tiết</button>
+              <button className="flex-1 py-2 rounded-lg bg-brand-card text-brand-text text-[11px] font-bold uppercase tracking-wider hover:bg-brand-red hover:text-white transition-colors">Bảng màu</button>
             </div>
           </div>
         ))}
       </div>
 
       <div className="mt-20 flex justify-center space-x-2">
-        <button className="w-10 h-10 rounded-lg bg-brand-card flex items-center justify-center border border-black/10 hover:bg-brand-red transition-colors"><ChevronLeft className="w-4 h-4" /></button>
+        <button className="w-10 h-10 rounded-lg bg-brand-card flex items-center justify-center border border-brand-text/10 hover:bg-brand-red transition-colors"><ChevronLeft className="w-4 h-4" /></button>
         <button className="w-10 h-10 rounded-lg bg-brand-red text-white font-bold">1</button>
-        <button className="w-10 h-10 rounded-lg bg-brand-card border border-black/10 hover:border-brand-red transition-colors">2</button>
-        <button className="w-10 h-10 rounded-lg bg-brand-card border border-black/10 hover:border-brand-red transition-colors">3</button>
+        <button className="w-10 h-10 rounded-lg bg-brand-card border border-brand-text/10 hover:border-brand-red transition-colors">2</button>
+        <button className="w-10 h-10 rounded-lg bg-brand-card border border-brand-text/10 hover:border-brand-red transition-colors">3</button>
         <span className="w-10 h-10 flex items-center justify-center">...</span>
-        <button className="w-10 h-10 rounded-lg bg-brand-card border border-black/10 hover:border-brand-red transition-colors">42</button>
-        <button className="w-10 h-10 rounded-lg bg-brand-card flex items-center justify-center border border-black/10 hover:bg-brand-red transition-colors"><ChevronRight className="w-4 h-4" /></button>
+        <button className="w-10 h-10 rounded-lg bg-brand-card border border-brand-text/10 hover:border-brand-red transition-colors">42</button>
+        <button className="w-10 h-10 rounded-lg bg-brand-card flex items-center justify-center border border-brand-text/10 hover:bg-brand-red transition-colors"><ChevronRight className="w-4 h-4" /></button>
       </div>
     </div>
   </section>
 );
 
 const Projects = () => (
-  <section className="py-24 bg-[#f7f7f7]">
+  <section className="py-24 bg-brand-alt">
     <div className="container mx-auto px-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-16 gap-4">
         <h2 className="text-4xl font-bold">Dự án tiêu biểu</h2>
@@ -260,7 +271,7 @@ const Projects = () => (
 );
 
 const Footer = () => (
-  <footer className="bg-brand-dark pt-20 pb-10 border-t border-black/10">
+  <footer className="bg-brand-dark pt-20 pb-10 border-t border-brand-text/10">
     <div className="container mx-auto px-6">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
         <div>
@@ -277,7 +288,7 @@ const Footer = () => (
           </div>
         </div>
         <div>
-          <h4 className="text-[#111] font-bold uppercase tracking-widest text-sm mb-8">Liên kết nhanh</h4>
+          <h4 className="text-brand-text font-bold uppercase tracking-widest text-sm mb-8">Liên kết nhanh</h4>
           <ul className="space-y-4 text-brand-gray text-sm">
             <li><a href="#" className="hover:text-brand-red transition-colors">Về chúng tôi</a></li>
             <li><a href="#" className="hover:text-brand-red transition-colors">Hệ thống showroom</a></li>
@@ -286,7 +297,7 @@ const Footer = () => (
           </ul>
         </div>
         <div>
-          <h4 className="text-[#111] font-bold uppercase tracking-widest text-sm mb-8">Hỗ trợ</h4>
+          <h4 className="text-brand-text font-bold uppercase tracking-widest text-sm mb-8">Hỗ trợ</h4>
           <ul className="space-y-4 text-brand-gray text-sm">
             <li><a href="#" className="hover:text-brand-red transition-colors">Chính sách bảo hành</a></li>
             <li><a href="#" className="hover:text-brand-red transition-colors">Chính sách giao hàng</a></li>
@@ -295,7 +306,7 @@ const Footer = () => (
           </ul>
         </div>
         <div>
-          <h4 className="text-[#111] font-bold uppercase tracking-widest text-sm mb-8">Bản tin</h4>
+          <h4 className="text-brand-text font-bold uppercase tracking-widest text-sm mb-8">Bản tin</h4>
           <p className="text-brand-gray text-xs mb-6">Nhận cập nhật về các bộ sưu tập mới nhất và những đổi mới bền vững.</p>
           <form className="flex">
             <input type="email" placeholder="Địa chỉ email" className="bg-brand-card border-none rounded-l-lg py-3 px-4 w-full text-sm focus:ring-1 focus:ring-brand-red outline-none" />
@@ -303,21 +314,38 @@ const Footer = () => (
           </form>
         </div>
       </div>
-      <div className="border-t border-black/10 pt-10 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-widest text-brand-gray">
+      <div className="border-t border-brand-text/10 pt-10 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-widest text-brand-gray">
         <p>© 2024 NỘI THẤT DUY HƯNG. BẢO LƯU MỌI QUYỀN.</p>
         <div className="flex space-x-8">
-          <a href="#" className="hover:text-black">Chính sách bảo mật</a>
-          <a href="#" className="hover:text-black">Điều khoản dịch vụ</a>
+          <a href="#" className="hover:text-brand-text">Chính sách bảo mật</a>
+          <a href="#" className="hover:text-brand-text">Điều khoản dịch vụ</a>
         </div>
       </div>
     </div>
   </footer>
 );
 
+const getInitialTheme = (): Theme => {
+  if (typeof window === 'undefined') return 'light';
+  const stored = window.localStorage.getItem('theme');
+  if (stored === 'light' || stored === 'dark') return stored;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+};
+
 export default function App() {
+  const [theme, setTheme] = useState<Theme>(getInitialTheme);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    root.classList.toggle('dark', theme === 'dark');
+    window.localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => setTheme(t => (t === 'dark' ? 'light' : 'dark'));
+
   return (
     <div className="min-h-screen">
-      <Header />
+      <Header theme={theme} onToggleTheme={toggleTheme} />
       <main>
         <Hero />
         <Categories />

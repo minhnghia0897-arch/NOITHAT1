@@ -1,23 +1,49 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
   --color-brand-red: #e31b23;
-  --color-brand-dark: #ffffff;
-  --color-brand-card: #f3f3f3;
-  --color-brand-text: #111111;
-  --color-brand-gray: #666666;
+  --color-brand-dark: var(--brand-dark);
+  --color-brand-alt: var(--brand-alt);
+  --color-brand-card: var(--brand-card);
+  --color-brand-text: var(--brand-text);
+  --color-brand-gray: var(--brand-gray);
+}
+
+:root {
+  --brand-dark: #f1f0f0;
+  --brand-alt: #f1f0f0;
+  --brand-card: #ffffff;
+  --brand-text: #111111;
+  --brand-gray: #666666;
+}
+
+.dark {
+  --brand-dark: #111111;
+  --brand-alt: #0f0f0f;
+  --brand-card: #1a1a1a;
+  --brand-text: #f5f5f5;
+  --brand-gray: #888888;
 }
 
 @layer base {
   body {
-    @apply bg-white text-[#111111] antialiased;
+    @apply bg-brand-alt text-brand-text antialiased transition-colors duration-300;
   }
 }
 
 @layer components {
   .glass-effect {
-    @apply bg-white/70 backdrop-blur-md border border-black/10;
+    background-color: rgb(255 255 255 / 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgb(0 0 0 / 0.08);
+  }
+
+  .dark .glass-effect {
+    background-color: rgb(255 255 255 / 0.05);
+    border-color: rgb(255 255 255 / 0.1);
   }
 
   .hover-zoom {
@@ -38,12 +64,18 @@
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #f0f0f0;
+  background: #e5e5e5;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cccccc;
+  background: #bbbbbb;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #e31b23;
+}
+.dark ::-webkit-scrollbar-track {
+  background: #111111;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #333333;
 }
