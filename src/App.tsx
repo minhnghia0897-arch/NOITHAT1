@@ -72,12 +72,18 @@ const Header = ({ theme, onToggleTheme }: { theme: Theme; onToggleTheme: () => v
 
 const Hero = () => (
   <section className="relative h-screen overflow-hidden">
-    <img
-      src="https://dmtkxjqlcrcddcuvzqqb.supabase.co/storage/v1/object/public/logos/DUYHUNG1.png"
-      alt="Showroom Duy Hưng"
-      className="absolute inset-0 w-full h-full object-cover"
-      referrerPolicy="no-referrer"
-    />
+    <picture>
+      <source
+        media="(max-width: 767px)"
+        srcSet="https://dmtkxjqlcrcddcuvzqqb.supabase.co/storage/v1/object/public/logos/DUYHUNG2.png"
+      />
+      <img
+        src="https://dmtkxjqlcrcddcuvzqqb.supabase.co/storage/v1/object/public/logos/DUYHUNG1.png"
+        alt="Showroom Duy Hưng"
+        className="absolute inset-0 w-full h-full object-cover"
+        referrerPolicy="no-referrer"
+      />
+    </picture>
   </section>
 );
 
