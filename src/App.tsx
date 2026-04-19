@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useEffect, useState } from 'react';
-import { Search, Heart, ShoppingBag, ArrowRight, Filter, ChevronLeft, ChevronRight, Twitter, Instagram, Sun, Moon } from 'lucide-react';
+import { useEffect, useState, type Dispatch, type ReactNode, type SetStateAction } from 'react';
+import { Search, Heart, ShoppingBag, ArrowRight, Filter, ChevronLeft, ChevronRight, ChevronDown, Eye, Download, Twitter, Instagram, Sun, Moon } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 type Theme = 'light' | 'dark';
@@ -138,88 +138,287 @@ const Categories = () => (
   </section>
 );
 
-const ProductGrid = () => (
-  <section className="py-24 bg-brand-dark">
-    <div className="container mx-auto px-6">
-      <div className="text-center mb-16">
-        <h2 className="text-4xl font-bold mb-6">Khám phá Sàn Gỗ MDF</h2>
-        <p className="text-brand-gray max-w-2xl mx-auto">Duyệt qua bộ sưu tập 1.248+ mẫu vân được tuyển chọn, phù hợp với phong cách và tầm nhìn kiến trúc của bạn.</p>
-      </div>
-      
-      <div className="flex flex-wrap items-center justify-between mb-12 gap-6">
-        <div className="flex items-center space-x-6">
-          <div className="flex items-center space-x-2 cursor-pointer text-brand-red">
-            <Filter className="w-5 h-5" />
-            <span className="font-medium">Lọc sản phẩm</span>
+type FilterKey = 'type' | 'color' | 'size' | 'surface';
+
+const PRODUCTS = [
+  {
+    id: 'DH-GL 6001',
+    name: 'Đá Marble Trắng Carrara',
+    tag: 'Bán chạy',
+    img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAVrSZ2y4n6SUOMXQFiEKJ0E07eaZ_DZbX8j4eTJvQoWh1CNSA5DGveNoeuSKxFHulNPhrJhx5pM6Awua1pPvSbL63sSJ1nZpwjz5Qy4Bx7gBqs7pOQKQEOwKJvr9VzwDmA4WIpwxAJG1gaHtVVdz8YGjGvsMKxo5TIChvpC0tK_XWKNKxajw62MgYn3KyfyKlus-jgSv_tcEnbM7qCTKjBl4LQctF3PK7Dx3la1Iz8M4iIva2gctiG_rs1-FO-P_4u1nXAEKttQ_E',
+  },
+  {
+    id: 'DH-GL 6060',
+    name: 'Vân Gỗ Sồi Tự Nhiên',
+    img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCpsNzq1OPpsNm7dB9Ks3L0B6msKRh8lEP3LNhDqvYvt-Oir5qNTGPzXgQ8nuB8lM_vPP5lrlEe2izrX0K8ukzjiQ_5uyQlZit6k_oAEuuNnKG15_JDpuoe6dDl9bP8OkLrjSbqT_iaEYBYzxLKY3xD7gw1pUCqzPPJaHwis9iX9uKiCVqYprHB1WX-jGXrDVsQAEloEyrXgdnfGg7Z4T8qZdLEDIiiMPnSjg0BUEwsTH3P1ASx_36cNmDbTbvoU-UoxYUeR2JELq4',
+  },
+  {
+    id: 'DH-GL 8015',
+    name: 'Bê Tông Xi Măng',
+    tag: 'Mới',
+    img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBs_qY9BzLhn6pe7BhXfQXOIquaxb9snkm0RPrxdTqpiRtiKJpBvxx7xeHmRMQQYRT-ozfY-Pg3_gG1K4qxs9tpdxpSo5seDmrO7Ksqf4qlzvK094-hx3AK5opc6NXrnP8zP0rqH8OGpjxcFGW_5HHWdqzACAh4p6CB2mfs8pp02AseHjiby8vJO2TG-og-GB250BqGkd3Kgpv-w6z0t-mBniFs2Etov133pbvLJlGvamA4sI6TDLX86jvZLHuM3DvtLVTjUtS7QTI',
+  },
+  {
+    id: 'DH-GL 3060',
+    name: 'Terracotta Đỏ Đất Nung',
+    img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBpbVevkysGorX1CyL2i31F-m-aKLkVXB4EpyH7VYsCFy7Ir_QobQmUOj5lmtdEAaRT2UYjUNHfV6-Zyqm7HmGd4F4ue39ghoUZUqsgv4uSpdjbAMWHXvJzvKwVjcAKXxZCpR2H7T99jYYU0NdBXG1aY8e84pLhDZTAXzRQoxNCRhm-wmklSGerthaPawjSif8ZNwaJYOU9DqTYhqwP1RVj3nVVNP8XDLhYws0eOQWNbiolyPoIAjl2y6gpDLYhbPyamAEBX3MZTy4',
+  },
+  {
+    id: 'DH-GL 6002',
+    name: 'Đá Granite Xám Khói',
+    tag: 'Bán chạy',
+    img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDMQNR2_Wdt7w8JmY66ZzLwcpy6YmrxRpnmR63uAiqttrAJwg8ehdHkfGdWlKKf2GjqbiuF5l-VNSl1Vq6dOgCwbUEqwWtrtcNEAlD-QNP-NiAmWqSGZocwQPkd4TGuCY92VCVT0KJSGkYFFSaBBQztwexQviHrv6slAsjSwzB1WeuiZrgksMxzeq4o8KujghMboczZOe_4pNwr-3EHgEhiIfTvTQemlZUr7DrhUqjiFEMzGWCVvqbpSY3yvwnwBCNBG6EHeidD8dA',
+  },
+  {
+    id: 'DH-GL 8001',
+    name: 'Vân Hoa Cương Đen Vàng',
+    tag: 'Mới',
+    img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDGwZ0tcNZhU1mlVj6Ybc1t0dVEKGILALytgKEwI-2yRbpsUNTCHMUy433yvbx_LEtEmGyrFDYrGdLOcPgyr6wRmaKAyPT4CYwtsRewWRLVSN4_GuAt61fDPR8qTVPylPN96u5Z0QIt4wjNRsdQbpv5kdI5-p1ZHaDiu_ChRD3mGMv-mM-orraFWRJznujYIBzQFj4Y6xAUf7G7YjpKb5_hcyn-_1b3DlPGp6gB41LrqrGhOrfis0-8DjBcyf8xQmt_FoqDW7wENkU',
+  },
+];
+
+const COLOR_SWATCHES = [
+  { hex: '#8b5a3c', name: 'Nâu gỗ' },
+  { hex: '#d4c4a8', name: 'Be kem' },
+  { hex: '#4a2717', name: 'Nâu đậm' },
+  { hex: '#f5f5f5', name: 'Trắng' },
+  { hex: '#2b2b2b', name: 'Đen' },
+];
+
+const FilterAccordion = ({
+  title,
+  isOpen,
+  onToggle,
+  children,
+}: {
+  title: string;
+  isOpen: boolean;
+  onToggle: () => void;
+  children: ReactNode;
+}) => (
+  <div className="py-5 border-b border-brand-text/10 last:border-b-0">
+    <button
+      type="button"
+      onClick={onToggle}
+      className="w-full flex items-center justify-between text-left"
+    >
+      <span className="text-[11px] font-bold tracking-widest uppercase">{title}</span>
+      <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+    </button>
+    {isOpen && <div className="mt-5">{children}</div>}
+  </div>
+);
+
+const FilterCheckbox = ({
+  label,
+  checked,
+  onChange,
+}: {
+  label: string;
+  checked: boolean;
+  onChange: () => void;
+}) => (
+  <label className="flex items-center space-x-3 cursor-pointer group py-1.5 text-sm">
+    <span
+      className={`w-5 h-5 rounded flex items-center justify-center transition-colors ${
+        checked ? 'bg-brand-red' : 'bg-brand-alt border border-brand-text/20 group-hover:border-brand-red'
+      }`}
+    >
+      {checked && (
+        <svg viewBox="0 0 20 20" className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" strokeWidth="3">
+          <path d="M5 10l3 3 7-7" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      )}
+    </span>
+    <input type="checkbox" checked={checked} onChange={onChange} className="sr-only" />
+    <span className="text-brand-text/90 group-hover:text-brand-red transition-colors">{label}</span>
+  </label>
+);
+
+const ProductGrid = () => {
+  const [open, setOpen] = useState<Record<FilterKey, boolean>>({
+    type: true,
+    color: true,
+    size: false,
+    surface: false,
+  });
+  const [selectedType, setSelectedType] = useState<string[]>(['Gạch lát nền']);
+  const [selectedColor, setSelectedColor] = useState<string>('#4a2717');
+  const [selectedSize, setSelectedSize] = useState<string[]>([]);
+  const [selectedSurface, setSelectedSurface] = useState<string[]>([]);
+
+  const toggleOpen = (key: FilterKey) => setOpen(s => ({ ...s, [key]: !s[key] }));
+  const toggleItem = (setter: Dispatch<SetStateAction<string[]>>, value: string) =>
+    setter(s => (s.includes(value) ? s.filter(x => x !== value) : [...s, value]));
+
+  return (
+    <section className="py-20 bg-brand-dark">
+      <div className="container mx-auto px-6">
+        <nav className="text-[11px] uppercase tracking-widest text-brand-gray mb-10">
+          <a href="#" className="hover:text-brand-red transition-colors">Trang chủ</a>
+          <span className="mx-3 opacity-60">/</span>
+          <a href="#" className="hover:text-brand-red transition-colors">Sản phẩm</a>
+          <span className="mx-3 opacity-60">/</span>
+          <span className="text-brand-text">Gạch lát nền</span>
+        </nav>
+
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
+          <div>
+            <h1 className="text-5xl md:text-6xl font-light leading-none mb-4">
+              Gạch Lát <span className="font-bold">Nền</span>
+            </h1>
+            <p className="text-brand-gray">Tìm thấy 1.248 mẫu sản phẩm phù hợp với phong cách của bạn</p>
           </div>
-          <div className="hidden md:flex items-center space-x-4 text-sm text-brand-gray">
-            {["Óc chó", "Sồi", "Gỗ gụ"].map(tag => (
-              <span key={tag} className="px-4 py-2 bg-brand-card rounded-full border border-brand-text/10 hover:border-brand-red transition-colors cursor-pointer">{tag}</span>
+          <div className="flex items-center gap-3">
+            <span className="text-[11px] uppercase tracking-widest text-brand-gray">Sắp xếp:</span>
+            <div className="relative">
+              <select className="appearance-none bg-brand-card border border-brand-text/10 rounded-xl pl-4 pr-10 py-3 text-sm outline-none focus:border-brand-red transition-colors cursor-pointer">
+                <option>Mới nhất</option>
+                <option>Bán chạy</option>
+                <option>Giá: Thấp đến Cao</option>
+                <option>Giá: Cao đến Thấp</option>
+              </select>
+              <ChevronDown className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+            </div>
+          </div>
+        </div>
+
+        <div className="border-t border-brand-text/10 mb-12"></div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8">
+          <aside className="bg-brand-card rounded-2xl p-6 border border-brand-text/10 self-start lg:sticky lg:top-28">
+            <div className="flex items-center gap-3 pb-5 mb-2 border-b border-brand-text/10">
+              <span className="bg-brand-red p-2 rounded-lg text-white flex items-center justify-center">
+                <Filter className="w-4 h-4" />
+              </span>
+              <span className="font-bold tracking-widest text-sm">BỘ LỌC SẢN PHẨM</span>
+            </div>
+
+            <FilterAccordion title="Loại sản phẩm" isOpen={open.type} onToggle={() => toggleOpen('type')}>
+              <div className="space-y-1">
+                {['Gạch lát nền', 'Gạch ốp tường', 'Gạch trang trí'].map(v => (
+                  <FilterCheckbox
+                    key={v}
+                    label={v}
+                    checked={selectedType.includes(v)}
+                    onChange={() => toggleItem(setSelectedType, v)}
+                  />
+                ))}
+              </div>
+            </FilterAccordion>
+
+            <FilterAccordion title="Màu sắc" isOpen={open.color} onToggle={() => toggleOpen('color')}>
+              <div className="flex gap-3 flex-wrap">
+                {COLOR_SWATCHES.map(c => {
+                  const active = selectedColor === c.hex;
+                  return (
+                    <button
+                      type="button"
+                      key={c.hex}
+                      onClick={() => setSelectedColor(c.hex)}
+                      aria-label={c.name}
+                      style={{ backgroundColor: c.hex }}
+                      className={`w-9 h-9 rounded-full transition-all ${
+                        active
+                          ? 'ring-2 ring-brand-red ring-offset-2 ring-offset-brand-card'
+                          : 'ring-1 ring-brand-text/15 hover:ring-brand-red/60'
+                      }`}
+                    />
+                  );
+                })}
+              </div>
+            </FilterAccordion>
+
+            <FilterAccordion title="Kích thước" isOpen={open.size} onToggle={() => toggleOpen('size')}>
+              <div className="space-y-1">
+                {['60 x 60 cm', '80 x 80 cm', '30 x 60 cm', '80 x 40 cm'].map(v => (
+                  <FilterCheckbox
+                    key={v}
+                    label={v}
+                    checked={selectedSize.includes(v)}
+                    onChange={() => toggleItem(setSelectedSize, v)}
+                  />
+                ))}
+              </div>
+            </FilterAccordion>
+
+            <FilterAccordion title="Bề mặt" isOpen={open.surface} onToggle={() => toggleOpen('surface')}>
+              <div className="space-y-1">
+                {['Bóng kiếng', 'Mờ (Matt)', 'Nhám chống trượt'].map(v => (
+                  <FilterCheckbox
+                    key={v}
+                    label={v}
+                    checked={selectedSurface.includes(v)}
+                    onChange={() => toggleItem(setSelectedSurface, v)}
+                  />
+                ))}
+              </div>
+            </FilterAccordion>
+
+            <button
+              type="button"
+              className="w-full bg-brand-red hover:bg-red-700 text-white font-bold tracking-widest uppercase text-xs py-4 rounded-xl mt-8 transition-colors shadow-lg shadow-brand-red/20"
+            >
+              Áp dụng bộ lọc
+            </button>
+          </aside>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-12">
+            {PRODUCTS.map(prod => (
+              <article key={prod.id} className="group">
+                <div className="relative overflow-hidden rounded-2xl aspect-[4/3] bg-brand-alt mb-5 shadow-xl">
+                  {prod.tag && (
+                    <span
+                      className={`absolute top-4 left-4 z-10 text-white text-[10px] font-bold px-3 py-1.5 rounded-md uppercase tracking-wider ${
+                        prod.tag === 'Mới' ? 'bg-black' : 'bg-brand-red'
+                      }`}
+                    >
+                      {prod.tag}
+                    </span>
+                  )}
+                  <img
+                    src={prod.img}
+                    alt={prod.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    referrerPolicy="no-referrer"
+                  />
+                </div>
+                <h3 className="text-xl font-bold mb-1">{prod.id}</h3>
+                <p className="text-brand-gray text-sm mb-5">{prod.name}</p>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg bg-brand-alt text-brand-text text-[11px] font-bold uppercase tracking-wider border border-brand-text/10 hover:bg-brand-red hover:text-white hover:border-brand-red transition-colors"
+                  >
+                    <Eye className="w-4 h-4" />
+                    Chi tiết
+                  </button>
+                  <button
+                    type="button"
+                    className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg bg-brand-alt text-brand-text text-[11px] font-bold uppercase tracking-wider border border-brand-text/10 hover:bg-brand-red hover:text-white hover:border-brand-red transition-colors"
+                  >
+                    <Download className="w-4 h-4" />
+                    Map màu
+                  </button>
+                </div>
+              </article>
             ))}
           </div>
         </div>
-        <select className="bg-brand-card border border-brand-text/10 rounded-lg text-sm px-4 py-2 outline-none focus:ring-brand-red">
-          <option>Sắp xếp: Mới nhất</option>
-          <option>Giá: Thấp đến Cao</option>
-          <option>Giá: Cao đến Thấp</option>
-        </select>
-      </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-16">
-        {[
-          {
-            id: "SAN DH 1161 T",
-            name: "Vân Óc Chó Ánh Đồng",
-            tag: "Bán chạy",
-            img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBpbVevkysGorX1CyL2i31F-m-aKLkVXB4EpyH7VYsCFy7Ir_QobQmUOj5lmtdEAaRT2UYjUNHfV6-Zyqm7HmGd4F4ue39ghoUZUqsgv4uSpdjbAMWHXvJzvKwVjcAKXxZCpR2H7T99jYYU0NdBXG1aY8e84pLhDZTAXzRQoxNCRhm-wmklSGerthaPawjSif8ZNwaJYOU9DqTYhqwP1RVj3nVVNP8XDLhYws0eOQWNbiolyPoIAjl2y6gpDLYhbPyamAEBX3MZTy4"
-          },
-          {
-            id: "SAN DH 388 RL",
-            name: "Sồi Santana Tự Nhiên",
-            img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCpsNzq1OPpsNm7dB9Ks3L0B6msKRh8lEP3LNhDqvYvt-Oir5qNTGPzXgQ8nuB8lM_vPP5lrlEe2izrX0K8ukzjiQ_5uyQlZit6k_oAEuuNnKG15_JDpuoe6dDl9bP8OkLrjSbqT_iaEYBYzxLKY3xD7gw1pUCqzPPJaHwis9iX9uKiCVqYprHB1WX-jGXrDVsQAEloEyrXgdnfGg7Z4T8qZdLEDIiiMPnSjg0BUEwsTH3P1ASx_36cNmDbTbvoU-UoxYUeR2JELq4"
-          },
-          {
-            id: "SAN DH 4001 PL",
-            name: "Trắng Bóng Cao Cấp",
-            tag: "Mới",
-            img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAVrSZ2y4n6SUOMXQFiEKJ0E07eaZ_DZbX8j4eTJvQoWh1CNSA5DGveNoeuSKxFHulNPhrJhx5pM6Awua1pPvSbL63sSJ1nZpwjz5Qy4Bx7gBqs7pOQKQEOwKJvr9VzwDmA4WIpwxAJG1gaHtVVdz8YGjGvsMKxo5TIChvpC0tK_XWKNKxajw62MgYn3KyfyKlus-jgSv_tcEnbM7qCTKjBl4LQctF3PK7Dx3la1Iz8M4iIva2gctiG_rs1-FO-P_4u1nXAEKttQ_E"
-          }
-        ].map((prod, i) => (
-          <div key={i} className="group">
-            <div className="relative overflow-hidden rounded-2xl aspect-video bg-brand-card mb-6 shadow-2xl">
-              {prod.tag && (
-                <span className={`absolute top-4 left-4 z-10 text-white text-[10px] font-bold px-3 py-1 rounded-sm uppercase tracking-tighter ${prod.tag === 'Mới' ? 'bg-black' : 'bg-brand-red'}`}>
-                  {prod.tag}
-                </span>
-              )}
-              <img src={prod.img} alt={prod.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" referrerPolicy="no-referrer" />
-              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center space-x-3">
-                <button className="bg-white text-black p-3 rounded-full hover:bg-brand-red hover:text-white transition-colors"><Search className="w-5 h-5" /></button>
-                <button className="bg-white text-black p-3 rounded-full hover:bg-brand-red hover:text-white transition-colors"><ShoppingBag className="w-5 h-5" /></button>
-              </div>
-            </div>
-            <h4 className="text-xl font-bold mb-1">{prod.id}</h4>
-            <p className="text-brand-gray text-sm mb-4">{prod.name}</p>
-            <div className="flex space-x-2">
-              <button className="flex-1 py-2 rounded-lg bg-brand-card text-brand-text text-[11px] font-bold uppercase tracking-wider hover:bg-brand-red hover:text-white transition-colors">Chi tiết</button>
-              <button className="flex-1 py-2 rounded-lg bg-brand-card text-brand-text text-[11px] font-bold uppercase tracking-wider hover:bg-brand-red hover:text-white transition-colors">Bảng màu</button>
-            </div>
-          </div>
-        ))}
+        <div className="mt-20 flex justify-center space-x-2">
+          <button className="w-10 h-10 rounded-lg bg-brand-card flex items-center justify-center border border-brand-text/10 hover:bg-brand-red hover:text-white transition-colors"><ChevronLeft className="w-4 h-4" /></button>
+          <button className="w-10 h-10 rounded-lg bg-brand-red text-white font-bold">1</button>
+          <button className="w-10 h-10 rounded-lg bg-brand-card border border-brand-text/10 hover:border-brand-red transition-colors">2</button>
+          <button className="w-10 h-10 rounded-lg bg-brand-card border border-brand-text/10 hover:border-brand-red transition-colors">3</button>
+          <span className="w-10 h-10 flex items-center justify-center text-brand-gray">...</span>
+          <button className="w-10 h-10 rounded-lg bg-brand-card border border-brand-text/10 hover:border-brand-red transition-colors">42</button>
+          <button className="w-10 h-10 rounded-lg bg-brand-card flex items-center justify-center border border-brand-text/10 hover:bg-brand-red hover:text-white transition-colors"><ChevronRight className="w-4 h-4" /></button>
+        </div>
       </div>
-
-      <div className="mt-20 flex justify-center space-x-2">
-        <button className="w-10 h-10 rounded-lg bg-brand-card flex items-center justify-center border border-brand-text/10 hover:bg-brand-red transition-colors"><ChevronLeft className="w-4 h-4" /></button>
-        <button className="w-10 h-10 rounded-lg bg-brand-red text-white font-bold">1</button>
-        <button className="w-10 h-10 rounded-lg bg-brand-card border border-brand-text/10 hover:border-brand-red transition-colors">2</button>
-        <button className="w-10 h-10 rounded-lg bg-brand-card border border-brand-text/10 hover:border-brand-red transition-colors">3</button>
-        <span className="w-10 h-10 flex items-center justify-center">...</span>
-        <button className="w-10 h-10 rounded-lg bg-brand-card border border-brand-text/10 hover:border-brand-red transition-colors">42</button>
-        <button className="w-10 h-10 rounded-lg bg-brand-card flex items-center justify-center border border-brand-text/10 hover:bg-brand-red transition-colors"><ChevronRight className="w-4 h-4" /></button>
-      </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 const Projects = () => (
   <section className="py-24 bg-brand-alt">
