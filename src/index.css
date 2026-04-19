@@ -3,31 +3,31 @@
 @theme {
   --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
   --color-brand-red: #e31b23;
-  --color-brand-dark: #111111;
-  --color-brand-card: #1a1a1a;
-  --color-brand-text: #f5f5f5;
-  --color-brand-gray: #888888;
+  --color-brand-dark: #ffffff;
+  --color-brand-card: #f3f3f3;
+  --color-brand-text: #111111;
+  --color-brand-gray: #666666;
 }
 
 @layer base {
   body {
-    @apply bg-[#0f0f0f] text-[#f5f5f5] antialiased;
+    @apply bg-white text-[#111111] antialiased;
   }
 }
 
 @layer components {
   .glass-effect {
-    @apply bg-white/5 backdrop-blur-md border border-white/10;
+    @apply bg-white/70 backdrop-blur-md border border-black/10;
   }
-  
+
   .hover-zoom {
     @apply overflow-hidden;
   }
-  
+
   .hover-zoom img {
     @apply transition-transform duration-500 ease-in-out;
   }
-  
+
   .hover-zoom:hover img {
     @apply scale-105;
   }
@@ -38,10 +38,10 @@
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #111;
+  background: #f0f0f0;
 }
 ::-webkit-scrollbar-thumb {
-  background: #333;
+  background: #cccccc;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
