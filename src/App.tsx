@@ -75,9 +75,9 @@ const Hero = () => {
   return (
   <section className="relative h-screen flex items-center pt-20 overflow-hidden">
     <div className="absolute inset-0 z-0">
-      <img 
-        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtyL0Mqdj6HqDHmp7tc9kF0wTUCPFHskoQpnbgtu2Gd_b12wszVrB2vxa0wzJqR4_BcLkkr5EKSU6bXvrtChKpDkj0AE0QrunlLL7xc2SBHpIZdpe0FpB1imtq1uxvPwbrOa9viEcdL28DN5iv8nR797EQ6QGOHvlzOA3fMNuDXOEOc8LzaoP5lXke1vUKqcbQL07CTCgE5YnCYLXMZMup9EwjsLB0PUBttOCg2CeZVBLq3T51wXtAvq4xrepfQ1hSLlo73uFprps" 
-        alt="Architectural Interior" 
+      <img
+        src="https://dmtkxjqlcrcddcuvzqqb.supabase.co/storage/v1/object/public/logos/DUYHUNG1.png"
+        alt="Showroom Duy Hưng"
         className="w-full h-full object-cover opacity-60"
         referrerPolicy="no-referrer"
       />
