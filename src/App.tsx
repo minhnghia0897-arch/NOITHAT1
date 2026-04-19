@@ -24,9 +24,14 @@ const Header = ({ theme, onToggleTheme }: { theme: Theme; onToggleTheme: () => v
     <header className="fixed top-0 left-0 right-0 z-50 glass-effect">
       <div className="container mx-auto px-6 h-20 flex items-center justify-between">
         <div className="flex items-center space-x-8">
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="bg-brand-red p-1 rounded text-white font-bold text-xl">D</div>
-            <span className="font-bold tracking-widest text-lg">DUY HƯNG</span>
+          <Link to="/" className="flex items-center space-x-2.5">
+            <img
+              src="https://dmtkxjqlcrcddcuvzqqb.supabase.co/storage/v1/object/public/logos/DUYHUNG.png"
+              alt="Duy Hưng"
+              className="h-10 w-auto"
+              referrerPolicy="no-referrer"
+            />
+            <span className="tracking-widest text-lg font-logo font-bold">DUY HƯNG</span>
           </Link>
           <nav className="hidden lg:flex space-x-8 text-sm font-medium tracking-wide uppercase">
             <Link to="/san-pham" className={navLinkClass(isProductRoute)}>Sản phẩm</Link>
@@ -509,9 +514,14 @@ const Footer = () => (
     <div className="container mx-auto px-6">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
         <div>
-          <div className="flex items-center space-x-2 mb-8">
-            <div className="bg-brand-red p-1 rounded text-white font-bold text-xl">D</div>
-            <span className="font-bold tracking-widest text-lg">DUY HƯNG</span>
+          <div className="flex items-center space-x-2.5 mb-8">
+            <img
+              src="https://dmtkxjqlcrcddcuvzqqb.supabase.co/storage/v1/object/public/logos/DUYHUNG.png"
+              alt="Duy Hưng"
+              className="h-10 w-auto"
+              referrerPolicy="no-referrer"
+            />
+            <span className="tracking-widest text-lg font-logo font-bold">DUY HƯNG</span>
           </div>
           <p className="text-brand-gray leading-relaxed text-sm mb-8">
             Nhà sản xuất và cung cấp vật liệu trang trí hàng đầu tại Việt Nam và Đông Nam Á. Chuyên về các sản phẩm gỗ công nghiệp cao cấp.
