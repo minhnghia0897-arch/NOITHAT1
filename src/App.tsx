@@ -4,7 +4,7 @@
  */
 
 import { useEffect, useState, type Dispatch, type ReactNode, type SetStateAction } from 'react';
-import { Link, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { Link, Route, Routes, useLocation } from 'react-router-dom';
 import { Search, Heart, ShoppingBag, ArrowRight, Filter, ChevronLeft, ChevronRight, ChevronDown, Eye, Download, Twitter, Instagram, Sun, Moon } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { PRODUCTS, ZALO_URL, type Product } from './data';
@@ -70,44 +70,16 @@ const Header = ({ theme, onToggleTheme }: { theme: Theme; onToggleTheme: () => v
   );
 };
 
-const Hero = () => {
-  const navigate = useNavigate();
-  return (
-  <section className="relative h-screen flex items-center pt-20 overflow-hidden">
-    <div className="absolute inset-0 z-0">
-      <img
-        src="https://dmtkxjqlcrcddcuvzqqb.supabase.co/storage/v1/object/public/logos/DUYHUNG1.png"
-        alt="Showroom Duy Hưng"
-        className="w-full h-full object-cover opacity-60"
-        referrerPolicy="no-referrer"
-      />
-      <div className="absolute inset-0 bg-gradient-to-r from-brand-alt via-brand-alt/80 to-transparent"></div>
-    </div>
-    <div className="container mx-auto px-6 relative z-10">
-      <motion.div 
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        className="max-w-2xl"
-      >
-        <h3 className="text-brand-red font-semibold tracking-widest uppercase mb-4">Đổi mới bề mặt</h3>
-        <h1 className="text-5xl md:text-7xl font-bold mb-8 leading-tight text-brand-text">Nâng tầm<br/>không gian sống</h1>
-        <p className="text-lg text-brand-gray mb-10 leading-relaxed max-w-lg">
-          Khám phá sự hài hòa hoàn hảo giữa thiên nhiên và công nghệ. Giải pháp MDF và kiến trúc cao cấp mang vẻ đẹp gỗ vượt thời gian đến với nội thất hiện đại.
-        </p>
-        <div className="flex space-x-4">
-          <button onClick={() => navigate('/san-pham')} className="bg-brand-red hover:bg-[#0d2a8a] text-white px-10 py-4 rounded-2xl font-semibold transition-all shadow-lg">Khám phá bộ sưu tập</button>
-          <button className="bg-brand-text/5 hover:bg-brand-text/10 text-brand-text px-10 py-4 rounded-2xl font-semibold transition-all glass-effect">Đặt mẫu thử</button>
-        </div>
-      </motion.div>
-    </div>
-    <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center">
-      <span className="text-[10px] uppercase tracking-[0.3em] text-brand-gray mb-2">Cuộn xuống</span>
-      <div className="w-[1px] h-12 bg-gradient-to-b from-brand-red to-transparent"></div>
-    </div>
+const Hero = () => (
+  <section className="relative h-screen overflow-hidden">
+    <img
+      src="https://dmtkxjqlcrcddcuvzqqb.supabase.co/storage/v1/object/public/logos/DUYHUNG1.png"
+      alt="Showroom Duy Hưng"
+      className="absolute inset-0 w-full h-full object-cover"
+      referrerPolicy="no-referrer"
+    />
   </section>
-  );
-};
+);
 
 const Categories = () => (
   <section className="py-24 bg-brand-alt">
