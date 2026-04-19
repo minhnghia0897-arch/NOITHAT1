@@ -5,7 +5,7 @@
 
 import { useEffect, useState, type Dispatch, type ReactNode, type SetStateAction } from 'react';
 import { Link, Route, Routes, useLocation } from 'react-router-dom';
-import { Search, Heart, ShoppingBag, ArrowRight, Filter, ChevronLeft, ChevronRight, ChevronDown, Eye, Download, Twitter, Instagram, Sun, Moon } from 'lucide-react';
+import { Search, Heart, ShoppingBag, ArrowRight, Filter, ChevronLeft, ChevronRight, ChevronDown, Eye, Download, MessageCircle, Twitter, Instagram, Sun, Moon } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { PRODUCTS, ZALO_URL, type Product } from './data';
 import ProductDetailPage from './pages/ProductDetailPage';
@@ -550,8 +550,7 @@ const Footer = () => (
 const getInitialTheme = (): Theme => {
   if (typeof window === 'undefined') return 'light';
   const stored = window.localStorage.getItem('theme');
-  if (stored === 'light' || stored === 'dark') return stored;
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  return stored === 'dark' ? 'dark' : 'light';
 };
 
 const HomePage = () => (
@@ -561,6 +560,24 @@ const HomePage = () => (
     <FeaturedProducts />
     <Projects />
   </>
+);
+
+const ZaloFab = () => (
+  <a
+    href={ZALO_URL}
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Chat Zalo 086 7934 886"
+    className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-50 group"
+  >
+    <span className="absolute inset-0 rounded-full bg-[#0068ff] opacity-30 animate-ping"></span>
+    <span className="relative flex items-center gap-2 pl-3 pr-4 py-3 rounded-full bg-[#0068ff] text-white shadow-2xl shadow-[#0068ff]/40 group-hover:scale-105 transition-transform">
+      <span className="flex items-center justify-center w-8 h-8 rounded-full bg-white/15">
+        <MessageCircle className="w-5 h-5" />
+      </span>
+      <span className="hidden sm:inline text-sm font-bold tracking-wide">Chat Zalo</span>
+    </span>
+  </a>
 );
 
 const ScrollToTop = () => {
@@ -595,6 +612,7 @@ export default function App() {
         </Routes>
       </main>
       <Footer />
+      <ZaloFab />
     </div>
   );
 }
