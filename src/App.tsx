@@ -71,7 +71,7 @@ const Header = ({ theme, onToggleTheme }: { theme: Theme; onToggleTheme: () => v
 };
 
 const Hero = () => (
-  <section className="relative overflow-hidden bg-brand-alt">
+  <section className="relative overflow-hidden bg-brand-alt pt-20">
     <picture>
       <source
         media="(max-width: 767px)"
