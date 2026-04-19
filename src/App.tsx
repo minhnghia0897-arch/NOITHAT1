@@ -28,7 +28,7 @@ const Header = ({ theme, onToggleTheme }: { theme: Theme; onToggleTheme: () => v
             <img
               src="https://dmtkxjqlcrcddcuvzqqb.supabase.co/storage/v1/object/public/logos/DUYHUNG.png"
               alt="Duy Hưng"
-              className="h-10 w-auto"
+              className="h-10 w-auto rounded-[5px]"
               referrerPolicy="no-referrer"
             />
             <span className="tracking-widest text-lg font-logo font-bold">DUY HƯNG</span>
@@ -96,7 +96,7 @@ const Hero = () => {
           Khám phá sự hài hòa hoàn hảo giữa thiên nhiên và công nghệ. Giải pháp MDF và kiến trúc cao cấp mang vẻ đẹp gỗ vượt thời gian đến với nội thất hiện đại.
         </p>
         <div className="flex space-x-4">
-          <button onClick={() => navigate('/san-pham')} className="bg-brand-red hover:bg-red-700 text-white px-10 py-4 rounded-2xl font-semibold transition-all shadow-lg">Khám phá bộ sưu tập</button>
+          <button onClick={() => navigate('/san-pham')} className="bg-brand-red hover:bg-[#0d2a8a] text-white px-10 py-4 rounded-2xl font-semibold transition-all shadow-lg">Khám phá bộ sưu tập</button>
           <button className="bg-brand-text/5 hover:bg-brand-text/10 text-brand-text px-10 py-4 rounded-2xl font-semibold transition-all glass-effect">Đặt mẫu thử</button>
         </div>
       </motion.div>
@@ -412,7 +412,7 @@ const ProductGrid = () => {
 
             <button
               type="button"
-              className="w-full bg-brand-red hover:bg-red-700 text-white font-bold tracking-widest uppercase text-xs py-4 rounded-xl mt-8 transition-colors shadow-lg shadow-brand-red/20"
+              className="w-full bg-brand-red hover:bg-[#0d2a8a] text-white font-bold tracking-widest uppercase text-xs py-4 rounded-xl mt-8 transition-colors shadow-lg shadow-brand-red/20"
             >
               Áp dụng bộ lọc
             </button>
@@ -518,7 +518,7 @@ const Footer = () => (
             <img
               src="https://dmtkxjqlcrcddcuvzqqb.supabase.co/storage/v1/object/public/logos/DUYHUNG.png"
               alt="Duy Hưng"
-              className="h-10 w-auto"
+              className="h-10 w-auto rounded-[5px]"
               referrerPolicy="no-referrer"
             />
             <span className="tracking-widest text-lg font-logo font-bold">DUY HƯNG</span>

@@ -156,7 +156,7 @@ export default function ProductDetailPage() {
             <div className="flex flex-col sm:flex-row gap-3 mb-8">
               <button
                 type="button"
-                className="flex-1 inline-flex items-center justify-center gap-2 bg-brand-red hover:bg-red-700 text-white font-semibold py-4 rounded-xl transition-colors shadow-lg shadow-brand-red/20"
+                className="flex-1 inline-flex items-center justify-center gap-2 bg-brand-red hover:bg-[#0d2a8a] text-white font-semibold py-4 rounded-xl transition-colors shadow-lg shadow-brand-red/20"
               >
                 <ShoppingBag className="w-5 h-5" />
                 Thêm vào giỏ hàng
