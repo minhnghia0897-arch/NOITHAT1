@@ -4,56 +4,70 @@
  */
 
 import { useEffect, useState, type Dispatch, type ReactNode, type SetStateAction } from 'react';
+import { Link, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { Search, Heart, ShoppingBag, ArrowRight, Filter, ChevronLeft, ChevronRight, ChevronDown, Eye, Download, Twitter, Instagram, Sun, Moon } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { PRODUCTS, type Product } from './data';
+import ProductDetailPage from './pages/ProductDetailPage';
 
 type Theme = 'light' | 'dark';
 
-const Header = ({ theme, onToggleTheme }: { theme: Theme; onToggleTheme: () => void }) => (
-  <header className="fixed top-0 left-0 right-0 z-50 glass-effect">
-    <div className="container mx-auto px-6 h-20 flex items-center justify-between">
-      <div className="flex items-center space-x-8">
-        <div className="flex items-center space-x-2">
-          <div className="bg-brand-red p-1 rounded text-white font-bold text-xl">D</div>
-          <span className="font-bold tracking-widest text-lg">DUY HƯNG</span>
-        </div>
-        <nav className="hidden lg:flex space-x-8 text-sm font-medium tracking-wide uppercase">
-          <a href="#" className="text-brand-red border-b-2 border-brand-red pb-1">Sản phẩm</a>
-          <a href="#" className="hover:text-brand-red transition-colors">Bề mặt</a>
-          <a href="#" className="hover:text-brand-red transition-colors">Dự án</a>
-          <a href="#" className="hover:text-brand-red transition-colors">Tin tức</a>
-        </nav>
-      </div>
-      <div className="flex items-center space-x-6">
-        <div className="relative group hidden md:block">
-          <input
-            type="text"
-            placeholder="Tìm vật liệu..."
-            className="bg-brand-card border-none rounded-full py-2 px-6 w-64 text-sm focus:ring-1 focus:ring-brand-red outline-none"
-          />
-          <Search className="w-4 h-4 absolute right-4 top-2.5 text-brand-gray" />
-        </div>
-        <div className="flex items-center space-x-4">
-          <button
-            type="button"
-            onClick={onToggleTheme}
-            aria-label={theme === 'dark' ? 'Chuyển sang chế độ sáng' : 'Chuyển sang chế độ tối'}
-            className="p-2 rounded-full hover:bg-brand-text/10 hover:text-brand-red transition-colors"
-          >
-            {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-          </button>
-          <div className="relative cursor-pointer group">
-            <Heart className="w-6 h-6 group-hover:text-brand-red transition-colors" />
-            <span className="absolute -top-2 -right-2 bg-brand-red text-white text-[10px] rounded-full px-1.5 py-0.5">0</span>
-          </div>
-          <ShoppingBag className="w-6 h-6 hover:text-brand-red cursor-pointer transition-colors" />
-        </div>
-      </div>
-    </div>
-  </header>
-);
+const navLinkClass = (isActive: boolean) =>
+  `uppercase tracking-wide transition-colors ${
+    isActive ? 'text-brand-red border-b-2 border-brand-red pb-1' : 'hover:text-brand-red'
+  }`;
 
-const Hero = () => (
+const Header = ({ theme, onToggleTheme }: { theme: Theme; onToggleTheme: () => void }) => {
+  const { pathname } = useLocation();
+  const isProductRoute = pathname.startsWith('/san-pham');
+  return (
+    <header className="fixed top-0 left-0 right-0 z-50 glass-effect">
+      <div className="container mx-auto px-6 h-20 flex items-center justify-between">
+        <div className="flex items-center space-x-8">
+          <Link to="/" className="flex items-center space-x-2">
+            <div className="bg-brand-red p-1 rounded text-white font-bold text-xl">D</div>
+            <span className="font-bold tracking-widest text-lg">DUY HƯNG</span>
+          </Link>
+          <nav className="hidden lg:flex space-x-8 text-sm font-medium tracking-wide uppercase">
+            <Link to="/san-pham" className={navLinkClass(isProductRoute)}>Sản phẩm</Link>
+            <a href="#" className="hover:text-brand-red transition-colors">Bề mặt</a>
+            <a href="#" className="hover:text-brand-red transition-colors">Dự án</a>
+            <a href="#" className="hover:text-brand-red transition-colors">Tin tức</a>
+          </nav>
+        </div>
+        <div className="flex items-center space-x-6">
+          <div className="relative group hidden md:block">
+            <input
+              type="text"
+              placeholder="Tìm vật liệu..."
+              className="bg-brand-card border-none rounded-full py-2 px-6 w-64 text-sm focus:ring-1 focus:ring-brand-red outline-none"
+            />
+            <Search className="w-4 h-4 absolute right-4 top-2.5 text-brand-gray" />
+          </div>
+          <div className="flex items-center space-x-4">
+            <button
+              type="button"
+              onClick={onToggleTheme}
+              aria-label={theme === 'dark' ? 'Chuyển sang chế độ sáng' : 'Chuyển sang chế độ tối'}
+              className="p-2 rounded-full hover:bg-brand-text/10 hover:text-brand-red transition-colors"
+            >
+              {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </button>
+            <div className="relative cursor-pointer group">
+              <Heart className="w-6 h-6 group-hover:text-brand-red transition-colors" />
+              <span className="absolute -top-2 -right-2 bg-brand-red text-white text-[10px] rounded-full px-1.5 py-0.5">0</span>
+            </div>
+            <ShoppingBag className="w-6 h-6 hover:text-brand-red cursor-pointer transition-colors" />
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+};
+
+const Hero = () => {
+  const navigate = useNavigate();
+  return (
   <section className="relative h-screen flex items-center pt-20 overflow-hidden">
     <div className="absolute inset-0 z-0">
       <img 
@@ -77,7 +91,7 @@ const Hero = () => (
           Khám phá sự hài hòa hoàn hảo giữa thiên nhiên và công nghệ. Giải pháp MDF và kiến trúc cao cấp mang vẻ đẹp gỗ vượt thời gian đến với nội thất hiện đại.
         </p>
         <div className="flex space-x-4">
-          <button className="bg-brand-red hover:bg-red-700 text-white px-10 py-4 rounded-2xl font-semibold transition-all shadow-lg">Khám phá bộ sưu tập</button>
+          <button onClick={() => navigate('/san-pham')} className="bg-brand-red hover:bg-red-700 text-white px-10 py-4 rounded-2xl font-semibold transition-all shadow-lg">Khám phá bộ sưu tập</button>
           <button className="bg-brand-text/5 hover:bg-brand-text/10 text-brand-text px-10 py-4 rounded-2xl font-semibold transition-all glass-effect">Đặt mẫu thử</button>
         </div>
       </motion.div>
@@ -87,7 +101,8 @@ const Hero = () => (
       <div className="w-[1px] h-12 bg-gradient-to-b from-brand-red to-transparent"></div>
     </div>
   </section>
-);
+  );
+};
 
 const Categories = () => (
   <section className="py-24 bg-brand-alt">
@@ -139,43 +154,6 @@ const Categories = () => (
 );
 
 type FilterKey = 'type' | 'color' | 'size' | 'surface';
-
-const PRODUCTS = [
-  {
-    id: 'DH-GL 6001',
-    name: 'Đá Marble Trắng Carrara',
-    tag: 'Bán chạy',
-    img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAVrSZ2y4n6SUOMXQFiEKJ0E07eaZ_DZbX8j4eTJvQoWh1CNSA5DGveNoeuSKxFHulNPhrJhx5pM6Awua1pPvSbL63sSJ1nZpwjz5Qy4Bx7gBqs7pOQKQEOwKJvr9VzwDmA4WIpwxAJG1gaHtVVdz8YGjGvsMKxo5TIChvpC0tK_XWKNKxajw62MgYn3KyfyKlus-jgSv_tcEnbM7qCTKjBl4LQctF3PK7Dx3la1Iz8M4iIva2gctiG_rs1-FO-P_4u1nXAEKttQ_E',
-  },
-  {
-    id: 'DH-GL 6060',
-    name: 'Vân Gỗ Sồi Tự Nhiên',
-    img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCpsNzq1OPpsNm7dB9Ks3L0B6msKRh8lEP3LNhDqvYvt-Oir5qNTGPzXgQ8nuB8lM_vPP5lrlEe2izrX0K8ukzjiQ_5uyQlZit6k_oAEuuNnKG15_JDpuoe6dDl9bP8OkLrjSbqT_iaEYBYzxLKY3xD7gw1pUCqzPPJaHwis9iX9uKiCVqYprHB1WX-jGXrDVsQAEloEyrXgdnfGg7Z4T8qZdLEDIiiMPnSjg0BUEwsTH3P1ASx_36cNmDbTbvoU-UoxYUeR2JELq4',
-  },
-  {
-    id: 'DH-GL 8015',
-    name: 'Bê Tông Xi Măng',
-    tag: 'Mới',
-    img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBs_qY9BzLhn6pe7BhXfQXOIquaxb9snkm0RPrxdTqpiRtiKJpBvxx7xeHmRMQQYRT-ozfY-Pg3_gG1K4qxs9tpdxpSo5seDmrO7Ksqf4qlzvK094-hx3AK5opc6NXrnP8zP0rqH8OGpjxcFGW_5HHWdqzACAh4p6CB2mfs8pp02AseHjiby8vJO2TG-og-GB250BqGkd3Kgpv-w6z0t-mBniFs2Etov133pbvLJlGvamA4sI6TDLX86jvZLHuM3DvtLVTjUtS7QTI',
-  },
-  {
-    id: 'DH-GL 3060',
-    name: 'Terracotta Đỏ Đất Nung',
-    img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBpbVevkysGorX1CyL2i31F-m-aKLkVXB4EpyH7VYsCFy7Ir_QobQmUOj5lmtdEAaRT2UYjUNHfV6-Zyqm7HmGd4F4ue39ghoUZUqsgv4uSpdjbAMWHXvJzvKwVjcAKXxZCpR2H7T99jYYU0NdBXG1aY8e84pLhDZTAXzRQoxNCRhm-wmklSGerthaPawjSif8ZNwaJYOU9DqTYhqwP1RVj3nVVNP8XDLhYws0eOQWNbiolyPoIAjl2y6gpDLYhbPyamAEBX3MZTy4',
-  },
-  {
-    id: 'DH-GL 6002',
-    name: 'Đá Granite Xám Khói',
-    tag: 'Bán chạy',
-    img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDMQNR2_Wdt7w8JmY66ZzLwcpy6YmrxRpnmR63uAiqttrAJwg8ehdHkfGdWlKKf2GjqbiuF5l-VNSl1Vq6dOgCwbUEqwWtrtcNEAlD-QNP-NiAmWqSGZocwQPkd4TGuCY92VCVT0KJSGkYFFSaBBQztwexQviHrv6slAsjSwzB1WeuiZrgksMxzeq4o8KujghMboczZOe_4pNwr-3EHgEhiIfTvTQemlZUr7DrhUqjiFEMzGWCVvqbpSY3yvwnwBCNBG6EHeidD8dA',
-  },
-  {
-    id: 'DH-GL 8001',
-    name: 'Vân Hoa Cương Đen Vàng',
-    tag: 'Mới',
-    img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDGwZ0tcNZhU1mlVj6Ybc1t0dVEKGILALytgKEwI-2yRbpsUNTCHMUy433yvbx_LEtEmGyrFDYrGdLOcPgyr6wRmaKAyPT4CYwtsRewWRLVSN4_GuAt61fDPR8qTVPylPN96u5Z0QIt4wjNRsdQbpv5kdI5-p1ZHaDiu_ChRD3mGMv-mM-orraFWRJznujYIBzQFj4Y6xAUf7G7YjpKb5_hcyn-_1b3DlPGp6gB41LrqrGhOrfis0-8DjBcyf8xQmt_FoqDW7wENkU',
-  },
-];
 
 const COLOR_SWATCHES = [
   { hex: '#8b5a3c', name: 'Nâu gỗ' },
@@ -235,6 +213,52 @@ const FilterCheckbox = ({
   </label>
 );
 
+const ProductCard = ({ product }: { product: Product }) => (
+  <article className="group">
+    <Link
+      to={`/san-pham/${product.slug}`}
+      className="block relative overflow-hidden rounded-xl sm:rounded-2xl aspect-[4/3] bg-brand-alt mb-3 sm:mb-5 shadow-xl"
+    >
+      {product.tag && (
+        <span
+          className={`absolute top-2 left-2 sm:top-4 sm:left-4 z-10 text-white text-[9px] sm:text-[10px] font-bold px-2 py-1 sm:px-3 sm:py-1.5 rounded-md uppercase tracking-wider ${
+            product.tag === 'Mới' ? 'bg-black' : 'bg-brand-red'
+          }`}
+        >
+          {product.tag}
+        </span>
+      )}
+      <img
+        src={product.img}
+        alt={product.name}
+        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+        referrerPolicy="no-referrer"
+      />
+    </Link>
+    <Link to={`/san-pham/${product.slug}`} className="block hover:text-brand-red transition-colors">
+      <h3 className="text-base sm:text-xl font-bold mb-1">{product.id}</h3>
+    </Link>
+    <p className="text-brand-gray text-xs sm:text-sm mb-3 sm:mb-5 line-clamp-1">{product.name}</p>
+    <div className="flex gap-2">
+      <Link
+        to={`/san-pham/${product.slug}`}
+        className="flex-1 flex items-center justify-center gap-1.5 sm:gap-2 py-2 sm:py-2.5 rounded-lg bg-brand-alt text-brand-text text-[10px] sm:text-[11px] font-bold uppercase tracking-wider border border-brand-text/10 hover:bg-brand-red hover:text-white hover:border-brand-red transition-colors"
+      >
+        <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+        <span className="hidden sm:inline">Chi tiết</span>
+        <span className="sm:hidden">Xem</span>
+      </Link>
+      <button
+        type="button"
+        className="flex-1 flex items-center justify-center gap-1.5 sm:gap-2 py-2 sm:py-2.5 rounded-lg bg-brand-alt text-brand-text text-[10px] sm:text-[11px] font-bold uppercase tracking-wider border border-brand-text/10 hover:bg-brand-red hover:text-white hover:border-brand-red transition-colors"
+      >
+        <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+        <span>Map màu</span>
+      </button>
+    </div>
+  </article>
+);
+
 const ProductGrid = () => {
   const [open, setOpen] = useState<Record<FilterKey, boolean>>({
     type: true,
@@ -256,7 +280,7 @@ const ProductGrid = () => {
     selectedType.length + selectedSize.length + selectedSurface.length + (selectedColor ? 1 : 0);
 
   return (
-    <section className="py-20 bg-brand-dark">
+    <section className="pt-28 pb-20 lg:pt-32 bg-brand-dark">
       <div className="container mx-auto px-6">
         <nav className="text-[11px] uppercase tracking-widest text-brand-gray mb-10">
           <a href="#" className="hover:text-brand-red transition-colors">Trang chủ</a>
@@ -391,44 +415,7 @@ const ProductGrid = () => {
 
           <div className="grid grid-cols-2 xl:grid-cols-3 gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-12">
             {PRODUCTS.map(prod => (
-              <article key={prod.id} className="group">
-                <div className="relative overflow-hidden rounded-xl sm:rounded-2xl aspect-[4/3] bg-brand-alt mb-3 sm:mb-5 shadow-xl">
-                  {prod.tag && (
-                    <span
-                      className={`absolute top-2 left-2 sm:top-4 sm:left-4 z-10 text-white text-[9px] sm:text-[10px] font-bold px-2 py-1 sm:px-3 sm:py-1.5 rounded-md uppercase tracking-wider ${
-                        prod.tag === 'Mới' ? 'bg-black' : 'bg-brand-red'
-                      }`}
-                    >
-                      {prod.tag}
-                    </span>
-                  )}
-                  <img
-                    src={prod.img}
-                    alt={prod.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    referrerPolicy="no-referrer"
-                  />
-                </div>
-                <h3 className="text-base sm:text-xl font-bold mb-1">{prod.id}</h3>
-                <p className="text-brand-gray text-xs sm:text-sm mb-3 sm:mb-5 line-clamp-1">{prod.name}</p>
-                <div className="flex gap-2">
-                  <button
-                    type="button"
-                    className="flex-1 flex items-center justify-center gap-1.5 sm:gap-2 py-2 sm:py-2.5 rounded-lg bg-brand-alt text-brand-text text-[10px] sm:text-[11px] font-bold uppercase tracking-wider border border-brand-text/10 hover:bg-brand-red hover:text-white hover:border-brand-red transition-colors"
-                  >
-                    <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                    <span className="hidden sm:inline">Chi tiết</span>
-                    <span className="sm:hidden">Xem</span>
-                  </button>
-                  <button
-                    type="button"
-                    className="flex-1 flex items-center justify-center gap-1.5 sm:gap-2 py-2 sm:py-2.5 rounded-lg bg-brand-alt text-brand-text text-[10px] sm:text-[11px] font-bold uppercase tracking-wider border border-brand-text/10 hover:bg-brand-red hover:text-white hover:border-brand-red transition-colors"
-                  >
-                    <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                    <span>Map màu</span>
-                  </button>
-                </div>
-              </article>
+              <ProductCard key={prod.id} product={prod} />
             ))}
           </div>
         </div>
@@ -446,6 +433,27 @@ const ProductGrid = () => {
     </section>
   );
 };
+
+const FeaturedProducts = () => (
+  <section className="py-24 bg-brand-dark">
+    <div className="container mx-auto px-6">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-12">
+        <div>
+          <h2 className="text-4xl font-bold mb-3">Sản phẩm nổi bật</h2>
+          <p className="text-brand-gray max-w-lg">Những mẫu gạch được khách hàng lựa chọn nhiều nhất trong tháng.</p>
+        </div>
+        <Link to="/san-pham" className="inline-flex items-center gap-2 text-sm uppercase tracking-widest text-brand-gray hover:text-brand-red transition-colors">
+          Xem tất cả sản phẩm <ArrowRight className="w-4 h-4" />
+        </Link>
+      </div>
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-12">
+        {PRODUCTS.slice(0, 3).map(prod => (
+          <ProductCard key={prod.id} product={prod} />
+        ))}
+      </div>
+    </div>
+  </section>
+);
 
 const Projects = () => (
   <section className="py-24 bg-brand-alt">
@@ -558,6 +566,23 @@ const getInitialTheme = (): Theme => {
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 };
 
+const HomePage = () => (
+  <>
+    <Hero />
+    <Categories />
+    <FeaturedProducts />
+    <Projects />
+  </>
+);
+
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+  }, [pathname]);
+  return null;
+};
+
 export default function App() {
   const [theme, setTheme] = useState<Theme>(getInitialTheme);
 
@@ -571,12 +596,15 @@ export default function App() {
 
   return (
     <div className="min-h-screen">
+      <ScrollToTop />
       <Header theme={theme} onToggleTheme={toggleTheme} />
       <main>
-        <Hero />
-        <Categories />
-        <ProductGrid />
-        <Projects />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/san-pham" element={<ProductGrid />} />
+          <Route path="/san-pham/:slug" element={<ProductDetailPage />} />
+          <Route path="*" element={<HomePage />} />
+        </Routes>
       </main>
       <Footer />
     </div>
