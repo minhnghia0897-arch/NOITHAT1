@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { ArrowLeft, Check, Download, Heart, Minus, Phone, Plus, Share2, ShoppingBag, Truck } from 'lucide-react';
-import { PRODUCTS, findProduct, formatVnd, type Product } from '../data';
+import { ArrowLeft, Check, Download, Heart, MessageCircle, Minus, Plus, Share2, ShoppingBag, Truck } from 'lucide-react';
+import { PRODUCTS, ZALO_URL, findProduct, formatVnd, type Product } from '../data';
 
 const Spec = ({ label, value }: { label: string; value: string }) => (
   <div className="flex justify-between gap-6 py-3 border-b border-brand-text/10 text-sm">
@@ -161,13 +161,15 @@ export default function ProductDetailPage() {
                 <ShoppingBag className="w-5 h-5" />
                 Thêm vào giỏ hàng
               </button>
-              <button
-                type="button"
-                className="flex-1 inline-flex items-center justify-center gap-2 border-2 border-brand-text/15 hover:border-brand-red hover:text-brand-red font-semibold py-4 rounded-xl transition-colors"
+              <a
+                href={`${ZALO_URL}?utm_source=website&utm_medium=quote&ref=${product.id}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 inline-flex items-center justify-center gap-2 bg-[#0068ff] hover:bg-[#0055d4] text-white font-semibold py-4 rounded-xl transition-colors shadow-lg shadow-[#0068ff]/20"
               >
-                <Phone className="w-5 h-5" />
-                Yêu cầu báo giá
-              </button>
+                <MessageCircle className="w-5 h-5" />
+                Báo giá qua Zalo
+              </a>
             </div>
 
             <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-brand-gray mb-8">

@@ -1,3 +1,6 @@
+export const ZALO_PHONE = '0909090909';
+export const ZALO_URL = `https://zalo.me/${ZALO_PHONE}`;
+
 export type ProductTag = 'Bán chạy' | 'Mới';
 
 export type Product = {
