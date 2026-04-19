@@ -4,6 +4,7 @@
 
 @theme {
   --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-logo: "Helvetica Neue", Helvetica, Arial, sans-serif;
   --color-brand-red: #e31b23;
   --color-brand-dark: var(--brand-dark);
   --color-brand-alt: var(--brand-alt);
