@@ -28,7 +28,7 @@ const Header = ({ theme, onToggleTheme }: { theme: Theme; onToggleTheme: () => v
             <img
               src="https://dmtkxjqlcrcddcuvzqqb.supabase.co/storage/v1/object/public/logos/DUYHUNG.png"
               alt="Duy Hưng"
-              className="h-10 w-auto"
+              className="h-10 w-auto rounded-[5px]"
               referrerPolicy="no-referrer"
             />
             <span className="tracking-widest text-lg font-logo font-bold">DUY HƯNG</span>
@@ -518,7 +518,7 @@ const Footer = () => (
             <img
               src="https://dmtkxjqlcrcddcuvzqqb.supabase.co/storage/v1/object/public/logos/DUYHUNG.png"
               alt="Duy Hưng"
-              className="h-10 w-auto"
+              className="h-10 w-auto rounded-[5px]"
               referrerPolicy="no-referrer"
             />
             <span className="tracking-widest text-lg font-logo font-bold">DUY HƯNG</span>
